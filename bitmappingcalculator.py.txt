@@ -1,0 +1,44 @@
+import pyodbc
+
+
+conn = pyodbc.connect(
+    "Driver={Sql Server Native Client 11.0};"
+     "Server= SAMPC;"
+    "Database=PWCIVLumbiniBBLSCT;"
+    "Trusted_Connection=yes;"
+)
+
+def create(conn):
+    print("map")
+    a=input('Please input bitmap:')
+    a=(int(a,16))
+    print(bin((0xF23E448128E090000000000004000000)))
+    print(len((bin((0xF23E448128E090000000000004000000)))))
+    b = list((bin(a))) #list((bin(0xF23E448128E090000000000004000000)))
+    del b[0:2]
+    m=0
+    while m<len(b)-1:
+
+        print(len(b))
+
+        for i in b:
+
+            m = m + 1
+            print(m,'is',i)
+            cursor = conn.cursor()
+            cursor.execute('update Bitmapping set OnOff= ? where FieldNum = ?;',
+        (i,m)
+    )
+conn.commit()
+create(conn)
+
+def read(conn):
+    print("Read")
+    cursor = conn.cursor()
+    cursor.execute("select * from Bitmapping WHERE OnOff=1")
+    for row in cursor:
+        print(f'row are ON = {row}')
+        print()
+conn.commit()
+read(conn)
+conn.close()
