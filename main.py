@@ -1,5 +1,4 @@
- import socket
-
+import socket
 from babandar import process
 
 c=socket.socket()
